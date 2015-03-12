@@ -1,0 +1,2 @@
+INDEX VERSION 1.126+/Users/ercanpinar/Downloads/cropper-master/CropperSample/.metadata/.plugins/org.eclipse.jdt.core
+4098935583.index
