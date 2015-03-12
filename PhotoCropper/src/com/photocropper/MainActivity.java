@@ -88,6 +88,7 @@ public class MainActivity extends Activity {
 
 
 		cropImageView = (CropImageView) findViewById(R.id.CropImageView);
+		
 		final SeekBar aspectRatioXSeek = (SeekBar) findViewById(R.id.aspectRatioXSeek);
 		final SeekBar aspectRatioYSeek = (SeekBar) findViewById(R.id.aspectRatioYSeek);
 		final ToggleButton fixedAspectRatioToggle = (ToggleButton) findViewById(R.id.fixedAspectRatioToggle);
@@ -196,6 +197,7 @@ public class MainActivity extends Activity {
 				croppedImage = cropImageView.getCroppedImage();
 				ImageView croppedImageView = (ImageView) findViewById(R.id.croppedImageView);
 				croppedImageView.setImageBitmap(croppedImage);
+				
 			}
 		});
 		final Button selectBtn = (Button) findViewById(R.id.btn_select_photo);
