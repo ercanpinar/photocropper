@@ -1,0 +1,4 @@
+INDEX VERSION 1.126+/Users/ercanpinar/Documents/workErc/photocropper/.metadata/.plugins/org.eclipse.jdt.core
+2430293926.index
+1964179979.index
+1399977149.index
