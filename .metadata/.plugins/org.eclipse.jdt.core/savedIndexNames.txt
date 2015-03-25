@@ -2,4 +2,5 @@ INDEX VERSION 1.126+/Users/ercanpinar/Documents/workErc/photocropper/.metadata/.
 2430293926.index
 4098935583.index
 1964179979.index
+2019225228.index
 1399977149.index

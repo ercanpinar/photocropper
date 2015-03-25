@@ -42,14 +42,15 @@
             android:layout_height="300dp"
             android:layout_gravity="center"
             custom:imageResource="@drawable/camera" />
-
+	<!-- Gone area -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:background="@android:color/holo_blue_light"
+            android:background="@color/cyan_strong"
             android:paddingLeft="40dp"
-            android:paddingRight="40dp" >
+            android:paddingRight="40dp"
+            android:visibility="gone" >
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -57,18 +58,8 @@
                 android:orientation="vertical"
                 android:visibility="visible" >
 
-                <Button
-                    android:id="@+id/Button_rotate"
-                    style="@style/RoboTheme"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="20dp"
-                    android:paddingLeft="25dp"
-                    android:paddingRight="25dp"
-                    android:text="@string/rotate"
-                    android:textColor="#33B5E5" />
+               
+                
 
                 <LinearLayout
                     android:id="@+id/fixedAspectRatioLayout"
@@ -195,7 +186,28 @@
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
-
+            </LinearLayout>
+	<!-- Gone area end -->
+	        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/cyan_strong"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp">
+             <Button
+                    android:id="@+id/Button_rotate"
+                    style="@style/RoboTheme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:paddingLeft="25dp"
+                    android:paddingRight="25dp"
+                    android:text="Döndür"
+                    android:textColor="#33B5E5" />
+              
             <Button
                 android:id="@+id/Button_crop"
                 style="@style/RoboTheme"
@@ -206,9 +218,23 @@
                 android:layout_marginTop="20dp"
                 android:paddingLeft="25dp"
                 android:paddingRight="25dp"
-                android:text="@string/crop"
+                android:text="KIRP"
                 android:textColor="#33B5E5"
                 android:textSize="30sp" />
+            
+              <Button
+                android:id="@+id/button_share"
+                style="@style/RoboTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp"
+                android:text="Paylaş"
+                android:textColor="#33B5E5"
+                android:textSize="20sp" />
 
             <ImageView
                 android:id="@+id/croppedImageView"
@@ -217,7 +243,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|top"
                 android:contentDescription="@string/croppedImageDesc" />
+             </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
 
 </ScrollView>

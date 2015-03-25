@@ -1,6 +1,7 @@
 
 package com.photocropper;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -34,6 +35,7 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.edmodo.cropper.CropImageView;
@@ -53,7 +55,7 @@ public class MainActivity extends Activity {
 
 	private final int REQUEST_CAMERA = 1;
 	private final int SELECT_FILE = 2;
-	
+
 	Bitmap croppedImage;
 
 	CropImageView cropImageView;
@@ -88,7 +90,7 @@ public class MainActivity extends Activity {
 
 
 		cropImageView = (CropImageView) findViewById(R.id.CropImageView);
-		
+
 		final SeekBar aspectRatioXSeek = (SeekBar) findViewById(R.id.aspectRatioXSeek);
 		final SeekBar aspectRatioYSeek = (SeekBar) findViewById(R.id.aspectRatioYSeek);
 		final ToggleButton fixedAspectRatioToggle = (ToggleButton) findViewById(R.id.fixedAspectRatioToggle);
@@ -197,7 +199,7 @@ public class MainActivity extends Activity {
 				croppedImage = cropImageView.getCroppedImage();
 				ImageView croppedImageView = (ImageView) findViewById(R.id.croppedImageView);
 				croppedImageView.setImageBitmap(croppedImage);
-				
+
 			}
 		});
 		final Button selectBtn = (Button) findViewById(R.id.btn_select_photo);
@@ -208,9 +210,36 @@ public class MainActivity extends Activity {
 				selectImage();
 			}
 		});
+		final Button shareBtn = (Button) findViewById(R.id.button_share);
+		shareBtn.setOnClickListener(new View.OnClickListener() {
 
+			@Override
+			public void onClick(View v) {
+				shareIt();
+			}
+		});
 	}
-
+	private void shareIt() {
+		if(croppedImage!=null){
+			Bitmap icon = croppedImage;
+			Intent share = new Intent(Intent.ACTION_SEND);
+			share.setType("image/jpeg");
+			ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+			icon.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+			File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "temp.jpg");
+			try {
+				f.createNewFile();
+				FileOutputStream fo = new FileOutputStream(f);
+				fo.write(bytes.toByteArray());
+			} catch (IOException e) {                       
+				e.printStackTrace();
+			}
+			share.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(f));
+			startActivity(Intent.createChooser(share, "Paylaş"));
+		}else{
+			Toast.makeText(getApplicationContext(), "Paylaşım yapılamadı.", Toast.LENGTH_SHORT).show();
+		}
+	}
 	/*
 	 * Sets the font on all TextViews in the ViewGroup. Searches recursively for
 	 * all inner ViewGroups as well. Just add a check for any other views you
@@ -228,36 +257,29 @@ public class MainActivity extends Activity {
 		}
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
 	private void selectImage() {
-		final CharSequence[] items = { "Take Photo", "Choose from Library",
-		"Cancel" };
+		final CharSequence[] items = { "Kamera", "Galeri",
+		"İptal" };
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-		builder.setTitle("Add Photo!");
+		builder.setTitle("Fotoğraf Ekle");
 		builder.setItems(items, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int item) {
-				if (items[item].equals("Take Photo")) {
+				if (items[item].equals("Kamera")) {
 					Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-					File f = new File(android.os.Environment
-							.getExternalStorageDirectory(), "temp.jpg");
+					File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "temp.jpg");
 					intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
 					startActivityForResult(intent, REQUEST_CAMERA);
-				} else if (items[item].equals("Choose from Library")) {
+				} else if (items[item].equals("Galeri")) {
 					Intent intent = new Intent(
 							Intent.ACTION_PICK,
 							android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 					intent.setType("image/*");
 					startActivityForResult(
-							Intent.createChooser(intent, "Select File"),
+							Intent.createChooser(intent, "Dosyadan seç"),
 							SELECT_FILE);
-				} else if (items[item].equals("Cancel")) {
+				} else if (items[item].equals("İptal")) {
 					dialog.dismiss();
 				}
 			}
@@ -270,8 +292,7 @@ public class MainActivity extends Activity {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK) {
 			if (requestCode == REQUEST_CAMERA) {
-				File f = new File(Environment.getExternalStorageDirectory()
-						.toString());
+				File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath());
 				for (File temp : f.listFiles()) {
 					if (temp.getName().equals("temp.jpg")) {
 						f = temp;
@@ -287,8 +308,7 @@ public class MainActivity extends Activity {
 
 					cropImageView.setImageBitmap(bm);
 
-					String path = android.os.Environment
-							.getExternalStorageDirectory()
+					String path = Environment.getExternalStorageDirectory().getAbsolutePath()
 							+ File.separator
 							+ "Phoenix" + File.separator + "default";
 					f.delete();
